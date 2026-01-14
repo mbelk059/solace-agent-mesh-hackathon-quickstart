@@ -68,6 +68,8 @@ After saving, redeploy the service to apply the new variables.
 
 Open the generated URL in your browser. You should see the SAM Web UI with the example agents ready to use.
 
+> **Security Note:** The SAM Web UI has no authentication—anyone with your Railway URL can use your deployed instance. If you share the URL with teammates, be aware that all usage consumes your LLM API key quota. Monitor your API usage if sharing broadly.
+
 ## Deploy Changes
 
 After making changes to your agents:
