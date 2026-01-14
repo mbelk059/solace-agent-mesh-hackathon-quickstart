@@ -9,7 +9,7 @@ This is a **hackathon quickstart template** for building SAM applications. The i
 **Tech Stack:**
 
 - Solace Agent Mesh 1.13.3 (multi-agent AI framework)
-- Python 3.11+ with uv package manager
+- Python 3.11 with uv package manager
 - Docker for containerized deployment
 - OpenAI-compatible LLM endpoints (Cerebras, etc.)
 
