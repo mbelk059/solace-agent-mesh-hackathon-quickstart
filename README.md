@@ -7,7 +7,8 @@ A hackathon quickstart template for building and deploying [Solace Agent Mesh](h
 1. [Get LLM API access](docs/llm-setup.md) (free options available)
 2. Choose a [run method](#run--deploy)
 3. Set up [Vibe Coding](docs/vibe-coding.md)
-4. Explore the [demo examples](#demo-examples)
+4. Watch the [demo videos](#demo-videos)
+5. Explore the [demo examples](#demo-examples)
 
 ## Run & Deploy
 
@@ -27,6 +28,22 @@ Pre-configured for [Google Antigravity](https://antigravity.google/), [Gemini CL
 
 See [Vibe Coding Guide](docs/vibe-coding.md) for setup and known limitations.
 
+## Demo Videos
+
+Quick walkthroughs showing how to use each tool:
+
+### Google Antigravity + CLI
+
+https://github.com/user-attachments/assets/a699e77f-7796-442e-8684-bf6679422a60
+
+### Gemini CLI + Docker
+
+https://github.com/user-attachments/assets/adcedaac-2e2c-461a-a77d-11eeba592f73
+
+### Claude Code + Railway
+
+https://github.com/user-attachments/assets/bded17cd-cfc8-4269-8933-92883792bcd3
+
 ## Demo Examples
 
 Agents showing progressive complexity:
@@ -39,18 +56,6 @@ Agents showing progressive complexity:
 | Advanced | [`docs-agent.yaml`](configs/agents/docs-agent.yaml)                 | MCP integration (Context7) for live documentation lookup                |
 
 Try: _"Generate a changelog for SolaceLabs/solace-agent-mesh"_ or _"Look up the Next.js App Router docs"_
-
-### Demo: Google Antigravity + CLI + Changelog GitHub Agent
-
-https://github.com/user-attachments/assets/a699e77f-7796-442e-8684-bf6679422a60
-
-### Demo: Gemini CLI + Docker
-
-https://github.com/user-attachments/assets/adcedaac-2e2c-461a-a77d-11eeba592f73
-
-### Demo: Claude Code + Railway
-
-https://github.com/user-attachments/assets/bded17cd-cfc8-4269-8933-92883792bcd3
 
 ---
 
