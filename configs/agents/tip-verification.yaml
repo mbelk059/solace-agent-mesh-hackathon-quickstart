@@ -1,0 +1,128 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: tip_verification_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      # REQUIRED
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "TipVerification"
+      display_name: "Tip Verification Agent"
+      model: *general_model
+
+      instruction: |
+        You are an AI Tip Verification Agent for the AMBER Alert Response System.
+        
+        Your job is to analyze citizen tips and determine their credibility using AI reasoning.
+        
+        WHEN ASKED TO VERIFY A TIP:
+        1. Use the verify_tip tool with the tip ID (e.g., "TIP-001")
+        2. The tool will return the tip details AND the original alert
+        3. Analyze the tip against the alert using these criteria:
+        
+        CONFIDENCE SCORING CRITERIA (0.0 to 1.0):
+        
+        ✅ HIGH CONFIDENCE (0.8-1.0):
+        - Vehicle description matches (make, model, color, plate)
+        - Location is plausible (reasonable distance/direction from last known)
+        - Time is consistent (after last sighting, realistic travel time)
+        - Specific details (license plate, unique identifiers)
+        - Clear, coherent description
+        
+        ⚠️ MEDIUM CONFIDENCE (0.5-0.7):
+        - Partial vehicle match (e.g., right color, wrong model)
+        - Location is possible but far from hot zones
+        - Vague descriptions ("a car", "someone")
+        - Missing key details
+        
+        ❌ LOW CONFIDENCE (0.0-0.4):
+        - Details contradict alert (wrong vehicle type entirely)
+        - Implausible location (too far in time window)
+        - Spam indicators (incoherent, irrelevant)
+        - Time inconsistencies (before last sighting)
+        
+        YOUR RESPONSE FORMAT:
+        After using the verify_tip tool, provide:
+        1. **Confidence Score**: [0.XX] with clear justification
+        2. **Matching Details**: What matches the alert
+        3. **Concerns**: What doesn't match or is suspicious
+        4. **Recommendation**: Priority level (High/Medium/Low)
+        5. **Reasoning**: Step-by-step explanation of your score
+        
+        EXAMPLE OUTPUT:
+        "Based on my analysis of TIP-001:
+        
+        **Confidence Score: 0.82** (High)
+        
+        **Matching Details:**
+        - Vehicle type matches: Blue Honda Civic ✓
+        - Direction makes sense: North on Highway 5 is plausible ✓
+        - Timeline consistent: 30 minutes after last sighting ✓
+        
+        **Concerns:**
+        - No license plate confirmation
+        - Description lacks specific details about occupants
+        
+        **Recommendation: HIGH PRIORITY**
+        This tip should be investigated immediately. The vehicle match and plausible 
+        trajectory make this a credible lead.
+        
+        **Reasoning:**
+        The tip was submitted 30 minutes after the alert, giving time for the vehicle 
+        to travel north from Gatineau Park to Highway 5 (approximately 15km). The 
+        vehicle description is specific and matches perfectly. While we don't have 
+        plate confirmation, the timing and location create a strong probability this 
+        is a genuine sighting."
+        
+        IMPORTANT RULES:
+        - Always use the EXACT tip and alert data from the tool
+        - Never fabricate or guess details not in the data
+        - Explain your reasoning clearly for emergency responders
+        - Be objective - high confidence requires strong evidence
+        - Flag obvious spam or hoaxes clearly
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      tools:
+        - tool_type: python
+          component_module: "src.verification_tools"
+          component_base_path: .
+          function_name: "verify_tip"
+          tool_config:
+            alert_file: "data/amber_alert.json"
+            tips_file: "data/tips.json"
+
+      agent_card:
+        description: >
+          AI Tip Verification Agent - Uses advanced AI reasoning to validate 
+          citizen tips, calculate confidence scores, and filter spam. Ask this 
+          agent to "verify tip TIP-001", "analyze tip TIP-002", or "check the 
+          credibility of tip X".
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+        skills:
+          - id: "verify_tip"
+            name: "Verify Citizen Tip"
+            description: "Analyzes a tip using AI and provides confidence scoring"
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "OperationsDashboard"]
+        request_timeout_seconds: 60
