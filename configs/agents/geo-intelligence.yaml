@@ -1,0 +1,77 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: geo_intelligence_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      # REQUIRED
+      namespace: ${NAMESPACE, sam/}  # absolute topic prefix for A2A messaging
+      supports_streaming: true
+      agent_name: "GeoIntelligence"
+      display_name: "Geo Intelligence"
+      model: *general_model
+
+      instruction: |
+        You are the Geo Intelligence Agent for AMBER Alert Response.
+        
+        When you receive alert data:
+        1. Extract the last known location coordinates (lat, lon)
+        2. Extract the last known time
+        3. Calculate time elapsed from last known to now
+        4. Use the calculate_hot_zones tool with these parameters:
+           - last_known_lat
+           - last_known_lon
+           - time_elapsed_minutes
+        5. Announce the hot zones you calculated
+        
+        IMPORTANT - Tool Output Rules:
+        - WAIT for the tool to return before responding
+        - Use the EXACT zones returned by the tool
+        - Present all zones with their confidence scores
+        
+        When alert is resolved:
+        - Acknowledge the resolution
+        - Stand down from active search
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      tools:
+        - tool_type: python
+          component_module: "src.geo_tools"
+          component_base_path: .
+          function_name: "calculate_hot_zones"
+
+      agent_card:
+        description: >
+          Geo Intelligence Agent - Calculates probable search zones based on 
+          last known location and time. Automatically activates when an alert 
+          is received. Use for geographic analysis and hot zone prediction.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+        skills:
+          - id: "calculate_hot_zones"
+            name: "Calculate Hot Zones"
+            description: "Generates probable search zones based on last known alert location and elapsed time"
+
+      # REQUIRED - tells SAM how often to publish this agent card
+      agent_card_publishing:
+        interval_seconds: 10
+
+      # REQUIRED - makes the agent discoverable in WebUI
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent"]
+        request_timeout_seconds: 60
