@@ -12,6 +12,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.claude/
 
 # Python
 __pycache__/
