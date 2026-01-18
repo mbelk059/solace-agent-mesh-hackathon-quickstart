@@ -146,15 +146,6 @@ Events are emitted in:
 - Python tools (`src/amber_tools.py`) - via HTTP to frontend API
 - API routes (`app/api/`) - for simulation triggers
 
-## Challenge Requirements Met
-
-✅ **Event-Driven**: All communication via events  
-✅ **Multi-Agent**: 6 independent agents  
-✅ **AI Agent**: AI Analyzer uses LLM for reasoning  
-✅ **Real-World Problem**: AMBER Alert system improvement  
-✅ **Visualization**: Live dashboard with agent status  
-✅ **Failure Recovery**: Demonstrates resilience  
-✅ **No APIs**: Uses hardcoded JSON data  
 
 ## License
 
