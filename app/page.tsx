@@ -4,12 +4,22 @@ import { useEffect, useState } from 'react';
 import AgentVisualization from './components/AgentVisualization';
 import EventTimeline from './components/EventTimeline';
 import Controls from './components/Controls';
+import AlertCard from './components/AlertCard';
 
 export interface AgentStatus {
   name: string;
   status: 'idle' | 'processing' | 'success' | 'error' | 'failed';
   lastEvent?: string;
   lastUpdate?: number;
+}
+
+export interface Alert {
+  alert_id: string;
+  status: 'active' | 'resolved';
+  agents: Record<string, AgentStatus>;
+  events: Event[];
+  createdAt: number;
+  resolvedAt?: number;
 }
 
 export interface Event {
@@ -20,10 +30,15 @@ export interface Event {
   to?: string;
   data?: any;
   color: string;
+  alert_id?: string; // Track which alert this event belongs to
 }
 
 export default function Home() {
-  const [agents, setAgents] = useState<Record<string, AgentStatus>>({
+  const [alerts, setAlerts] = useState<Record<string, Alert>>({});
+  const [isSimulating, setIsSimulating] = useState(false);
+
+  // Initialize default agent statuses
+  const getDefaultAgents = (): Record<string, AgentStatus> => ({
     'Alert Receiver': { name: 'Alert Receiver', status: 'idle' },
     'AI Analyzer': { name: 'AI Analyzer', status: 'idle' },
     'Broadcast Agent': { name: 'Broadcast Agent', status: 'idle' },
@@ -31,9 +46,6 @@ export default function Home() {
     'Tip Processor': { name: 'Tip Processor', status: 'idle' },
     'Geo Intelligence': { name: 'Geo Intelligence', status: 'idle' },
   });
-
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isSimulating, setIsSimulating] = useState(false);
 
   useEffect(() => {
     // Connect to event stream
@@ -74,14 +86,51 @@ export default function Home() {
   }, []);
 
   const handleEvent = (event: Event) => {
-    setEvents((prev) => [event, ...prev].slice(0, 100)); // Keep last 100 events
-
-    // Update agent status based on event
-    setAgents((prev) => {
+    // Skip system events that don't belong to a specific alert
+    if (event.type === 'connected' || event.type === 'simulation_reset') {
+      return;
+    }
+    
+    const alertId = event.alert_id || event.data?.alert_id;
+    if (!alertId) {
+      console.warn('[Frontend] Event missing alert_id:', event.type);
+      return;
+    }
+    
+    setAlerts((prev) => {
       const updated = { ...prev };
       
-      if (event.from && updated[event.from]) {
-        // Determine status based on event type
+      // Create alert if it doesn't exist
+      if (!updated[alertId]) {
+        updated[alertId] = {
+          alert_id: alertId,
+          status: 'active',
+          agents: getDefaultAgents(),
+          events: [],
+          createdAt: event.timestamp,
+        };
+      }
+      
+      const alert = updated[alertId];
+      
+      // Don't add events to resolved alerts (except the resolution event itself)
+      if (alert.status === 'resolved' && event.type !== 'alert_resolved') {
+        console.warn('[Frontend] Ignoring event for resolved alert:', event.type, alertId);
+        return updated;
+      }
+      
+      // Check if event already exists (prevent duplicates)
+      const eventExists = alert.events.some(e => e.id === event.id && e.timestamp === event.timestamp);
+      if (eventExists) {
+        console.warn('[Frontend] Duplicate event ignored:', event.id);
+        return updated;
+      }
+      
+      // Add event to alert's event list
+      alert.events = [event, ...alert.events].slice(0, 100);
+      
+      // Update agent status based on event
+      if (event.from && alert.agents[event.from]) {
         let newStatus: AgentStatus['status'] = 'processing';
         if (event.type.includes('error') || event.type.includes('failed')) {
           newStatus = 'error';
@@ -92,19 +141,21 @@ export default function Home() {
           newStatus = 'success';
         }
         
-        updated[event.from] = {
-          ...updated[event.from],
+        alert.agents[event.from] = {
+          ...alert.agents[event.from],
           status: newStatus,
           lastEvent: event.type,
           lastUpdate: Date.now(),
         };
       }
 
-      // Special handling for resolution event - mark all agents as success
+      // Special handling for resolution event
       if (event.type === 'alert_resolved') {
-        Object.keys(updated).forEach((agentName) => {
-          updated[agentName] = {
-            ...updated[agentName],
+        alert.status = 'resolved';
+        alert.resolvedAt = event.timestamp;
+        Object.keys(alert.agents).forEach((agentName) => {
+          alert.agents[agentName] = {
+            ...alert.agents[agentName],
             status: 'success',
             lastEvent: 'Alert Resolved',
             lastUpdate: Date.now(),
@@ -112,16 +163,16 @@ export default function Home() {
         });
       }
 
-      if (event.to && updated[event.to]) {
-        updated[event.to] = {
-          ...updated[event.to],
+      if (event.to && alert.agents[event.to]) {
+        alert.agents[event.to] = {
+          ...alert.agents[event.to],
           status: 'processing',
           lastEvent: `Received: ${event.type}`,
           lastUpdate: Date.now(),
         };
       }
 
-      return updated;
+      return { ...updated };
     });
   };
 
@@ -163,14 +214,7 @@ export default function Home() {
       });
       if (!response.ok) throw new Error('Failed to reset');
       
-      setAgents((prev) => {
-        const reset: Record<string, AgentStatus> = {};
-        Object.keys(prev).forEach((key) => {
-          reset[key] = { ...prev[key], status: 'idle', lastEvent: undefined };
-        });
-        return reset;
-      });
-      setEvents([]);
+      setAlerts({});
     } catch (error) {
       console.error('Error resetting:', error);
     }
@@ -192,13 +236,43 @@ export default function Home() {
         onSimulateFailure={simulateFailure}
         onReset={resetSimulation}
         isSimulating={isSimulating}
-        agentNames={Object.keys(agents)}
+        agentNames={Object.keys(getDefaultAgents())}
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginTop: '30px' }}>
-        <AgentVisualization agents={agents} events={events.slice(0, 20)} />
-        <EventTimeline events={events} />
-      </div>
+      {Object.keys(alerts).length === 0 ? (
+        <div style={{ 
+          textAlign: 'center', 
+          padding: '60px 20px', 
+          color: '#666',
+          background: '#1a1a1a',
+          borderRadius: '8px',
+          marginTop: '30px'
+        }}>
+          <p style={{ fontSize: '1.2rem', marginBottom: '10px' }}>No active alerts</p>
+          <p style={{ fontSize: '0.9rem' }}>Click "Trigger AMBER Alert" to start tracking an alert</p>
+        </div>
+      ) : (
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(600px, 1fr))', 
+          gap: '20px', 
+          marginTop: '30px' 
+        }}>
+          {Object.values(alerts).map((alert) => (
+            <AlertCard 
+              key={alert.alert_id} 
+              alert={alert}
+              onRemove={(alertId) => {
+                setAlerts((prev) => {
+                  const updated = { ...prev };
+                  delete updated[alertId];
+                  return updated;
+                });
+              }}
+            />
+          ))}
+        </div>
+      )}
     </main>
   );
 }

@@ -22,9 +22,9 @@ export default function EventTimeline({ events }: EventTimelineProps) {
             No events yet. Trigger an alert to start the simulation.
           </div>
         ) : (
-          events.map((event) => (
+          events.map((event, idx) => (
             <div
-              key={event.id}
+              key={`${event.id}-${event.timestamp}-${idx}`}
               style={{
                 background: '#2a2a2a',
                 borderLeft: `4px solid ${event.color}`,
