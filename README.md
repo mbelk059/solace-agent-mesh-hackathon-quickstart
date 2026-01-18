@@ -1,4 +1,4 @@
-# AMBER Alert Simulation - Solace Agent Mesh
+# AMBER AI Alert - Solace Agent Mesh
 
 An event-driven, multi-agent AI system that simulates an intelligent AMBER Alert response network. This demonstration shows how multiple independent agents communicate through events to coordinate emergency response.
 
