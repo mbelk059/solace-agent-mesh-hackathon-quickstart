@@ -80,27 +80,39 @@ export async function POST() {
     }, 3000);
 
     // Simulate tips coming in
+    // Schedule tips to arrive at 4s and 5s, then resolution at 6s
+    const tipsPath = path.join(process.cwd(), 'data', 'tips.json');
+    const tipsData = JSON.parse(fs.readFileSync(tipsPath, 'utf-8'));
+    const tipsToSend = tipsData.tips.slice(0, 2);
+    
+    // First tip at 4s
     setTimeout(() => {
-      const tipsPath = path.join(process.cwd(), 'data', 'tips.json');
-      const tipsData = JSON.parse(fs.readFileSync(tipsPath, 'utf-8'));
-      
-      tipsData.tips.slice(0, 2).forEach((tip: any, idx: number) => {
-        setTimeout(() => {
-          broadcastEvent({
-            id: `event-${Date.now()}-${idx}`,
-            timestamp: Date.now(),
-            type: 'tip_received',
-            from: 'Tip Processor',
-            to: 'AI Analyzer',
-            data: { tip_id: tip.id, confidence: 'high' },
-            color: '#00ff00',
-          });
-        }, 4000 + idx * 1000);
+      broadcastEvent({
+        id: `event-${Date.now()}-0`,
+        timestamp: Date.now(),
+        type: 'tip_received',
+        from: 'Tip Processor',
+        to: 'AI Analyzer',
+        data: { tip_id: tipsToSend[0].id, confidence: 'high' },
+        color: '#00ff00',
       });
     }, 4000);
+    
+    // Second tip at 5s
+    setTimeout(() => {
+      broadcastEvent({
+        id: `event-${Date.now()}-1`,
+        timestamp: Date.now(),
+        type: 'tip_received',
+        from: 'Tip Processor',
+        to: 'AI Analyzer',
+        data: { tip_id: tipsToSend[1].id, confidence: 'high' },
+        color: '#00ff00',
+      });
+    }, 5000);
 
-    // Simulate resolution after tips lead to recovery (after all tips are received)
-    // Tips: 4s (idx 0), 5s (idx 1), so resolution at 8s to ensure it comes after all tips
+    // Simulate resolution after tips lead to recovery
+    // Both tips complete by 5s, so resolution at 6s
     setTimeout(() => {
       const resolutionsPath = path.join(process.cwd(), 'data', 'resolutions.json');
       const resolutionsData = JSON.parse(fs.readFileSync(resolutionsPath, 'utf-8'));
@@ -121,7 +133,7 @@ export async function POST() {
         },
         color: '#00ff00',
       });
-    }, 8000); // After both tips (4s + 0s = 4s, 4s + 1s = 5s, resolution at 8s to be safe)
+    }, 6000); // After both tips (4s and 5s), resolution at 6s
 
     return NextResponse.json({ success: true, message: 'Alert triggered' });
   } catch (error: any) {
