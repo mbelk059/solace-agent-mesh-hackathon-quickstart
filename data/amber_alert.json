@@ -1,0 +1,68 @@
+{
+  "alert_id": "AMBER-CA-2026-001",
+  "timestamp": "2026-01-17T14:30:00Z",
+  "status": "active",
+  "type": "AMBER_ALERT",
+  
+  "child": {
+    "name": "Emma Rodriguez",
+    "age": 7,
+    "gender": "Female",
+    "height": "4'2\"",
+    "weight": "55 lbs",
+    "hair_color": "Brown",
+    "eye_color": "Brown",
+    "description": "Wearing pink winter jacket with white stripes, blue jeans, and purple sneakers. Has a small scar above right eyebrow.",
+    "last_seen_wearing": "Pink jacket, blue jeans, purple sneakers"
+  },
+  
+  "suspect": {
+    "name": "Unknown male",
+    "age_range": "30-35",
+    "gender": "Male",
+    "height": "6'0\"",
+    "weight": "180 lbs",
+    "hair_color": "Black",
+    "description": "Wearing black hoodie, dark jeans, and white running shoes. Medium build, clean shaven.",
+    "relationship": "Unknown - no known relation to child"
+  },
+  
+  "vehicle": {
+    "make": "Honda",
+    "model": "Civic",
+    "year": "2018",
+    "color": "Blue",
+    "plate": "ABC1234",
+    "state": "CA",
+    "description": "4-door sedan, small dent on rear bumper, tinted windows"
+  },
+  
+  "last_known": {
+    "location": "Gatineau Park Visitor Center",
+    "address": "33 Scott Road, Chelsea, QC",
+    "coords": {
+      "lat": 45.5088,
+      "lon": -75.8306
+    },
+    "time": "2026-01-17T14:15:00Z",
+    "witness": "Park staff member saw child getting into blue Honda",
+    "direction": "Vehicle last seen heading north on Highway 5"
+  },
+  
+  "incident_details": {
+    "reported_by": "Park security",
+    "reported_at": "2026-01-17T14:25:00Z",
+    "circumstances": "Child was playing near visitor center. Witness saw unknown male approach child, speak briefly, then child got into vehicle voluntarily. Witness became suspicious and reported immediately.",
+    "urgency": "HIGH - Non-custodial adult, unknown relationship, child left willingly but may be in danger"
+  },
+  
+  "contact": {
+    "lead_agency": "Gatineau Police Service",
+    "case_number": "GPS-2026-0117-001",
+    "hotline": "1-800-555-AMBER",
+    "detective": "Det. Sarah Chen",
+    "detective_phone": "819-555-0142"
+  },
+  
+  "resolution": null
+}

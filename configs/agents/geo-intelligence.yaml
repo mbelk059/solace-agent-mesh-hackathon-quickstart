@@ -1,0 +1,77 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: geo-intelligence_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "GeoIntelligence"
+      display_name: "Geo Intelligence"
+      model: *general_model
+
+      instruction: |
+        You are the Geo Intelligence agent in an AMBER Alert system.
+        Your role is to create geofence zones for camera scanning and vehicle tracking.
+
+        When you receive alert location data:
+        1. Use create_geofence to define scanning zones
+        2. Consider:
+           - Last known location
+           - Likely escape routes
+           - Highway corridors
+           - Rest stops and gas stations
+           - Border crossings
+        3. Create zones with appropriate radius and priority
+        4. Emit "geofence_created" event to Camera Agent
+
+        IMPORTANT:
+        - Create zones based on last known location
+        - Consider likely travel routes
+        - Set appropriate zone priorities
+        - Emit geofence data immediately
+
+      tools:
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "read_alert_data"
+          tool_config:
+            data_dir: "data"
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "create_geofence"
+          tool_config:
+            data_dir: "data"
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Geo Intelligence Agent - Creates geofence zones for camera scanning and vehicle tracking
+          based on last known location and likely escape routes. Use this agent when alert location
+          data is available, when geofence zones need to be created, or when determining scanning
+          areas. This agent analyzes location data and creates prioritized zones for camera deployment.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "AlertReceiver", "CameraAgent"]
+        request_timeout_seconds: 60

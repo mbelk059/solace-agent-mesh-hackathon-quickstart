@@ -1,0 +1,103 @@
+{
+  "resolutions": [
+    {
+      "alert_id": "AMBER-CA-2026-001",
+      "resolution_type": "found_safe",
+      "timestamp": "2026-01-17T16:45:00Z",
+      
+      "resolution_details": {
+        "location": "Galeries Aylmer Parking Lot, Gatineau, QC",
+        "coordinates": {
+          "lat": 45.3976,
+          "lon": -75.8516
+        },
+        "how_found": "Responding to TIP-004, patrol units located vehicle in parking lot. Child was safely recovered from vehicle. Suspect apprehended inside mall attempting to purchase items.",
+        "child_status": "Safe and unharmed. Child reunited with parents. Undergoing medical evaluation as precaution.",
+        "suspect_status": "In custody. Identified as Marcus Chen, 34, no prior relationship to family. Charges pending: child abduction, unlawful confinement."
+      },
+      
+      "timeline": {
+        "alert_issued": "2026-01-17T14:30:00Z",
+        "critical_tip_received": "2026-01-17T15:25:00Z (TIP-004)",
+        "units_dispatched": "2026-01-17T15:27:00Z",
+        "child_recovered": "2026-01-17T15:42:00Z",
+        "suspect_apprehended": "2026-01-17T15:48:00Z",
+        "alert_resolved": "2026-01-17T16:45:00Z",
+        "total_duration": "2 hours 15 minutes"
+      },
+      
+      "responding_units": [
+        {
+          "unit_id": "Unit 12",
+          "type": "Patrol - Gatineau Police",
+          "officers": ["Const. Marie Dubois", "Const. James Wilson"],
+          "role": "First responders, child recovery"
+        },
+        {
+          "unit_id": "Unit 8",
+          "type": "Patrol - Gatineau Police",
+          "officers": ["Const. David Park", "Const. Lisa Thompson"],
+          "role": "Perimeter security, suspect apprehension"
+        },
+        {
+          "unit_id": "K9 Unit 3",
+          "type": "Canine Unit",
+          "officers": ["Const. Robert Hayes"],
+          "role": "Backup, mall search"
+        },
+        {
+          "unit_id": "Detective Unit",
+          "type": "Investigations",
+          "officers": ["Det. Sarah Chen", "Det. Michael Tremblay"],
+          "role": "Scene coordination, evidence collection"
+        }
+      ],
+      
+      "tips_summary": {
+        "total_tips_received": 4,
+        "tips_verified_by_ai": 4,
+        "critical_tip": "TIP-004",
+        "critical_tip_confidence": "95%",
+        "average_confidence": "78%",
+        "false_positives": 0,
+        "tips_that_led_to_resolution": ["TIP-002", "TIP-004"]
+      },
+      
+      "system_performance": {
+        "geo_intelligence_accuracy": "Predicted North Corridor (85% confidence) - actual location was 11.8km south, within extended search radius",
+        "ai_verification_accuracy": "Correctly prioritized TIP-002 (91%) and TIP-004 (95%) as high confidence",
+        "event_driven_response": "All agents responded autonomously to events, no manual coordination required",
+        "time_to_resolution": "2h 15min from alert issue to child safe"
+      },
+      
+      "outcome": {
+        "child_safe": true,
+        "suspect_arrested": true,
+        "charges_filed": true,
+        "evidence_collected": "Vehicle impounded, mall security footage secured, witness statements recorded",
+        "family_reunited": true,
+        "media_notification": "Press conference scheduled for 2026-01-17T18:00:00Z"
+      }
+    }
+  ],
+  
+  "resolution_types": {
+    "found_safe": "Child recovered safely, no injuries",
+    "found_injured": "Child recovered but sustained injuries",
+    "found_deceased": "Child found but did not survive",
+    "suspect_arrested": "Suspect in custody, child status varies",
+    "false_alarm": "Alert issued in error, no actual abduction",
+    "cancelled": "Child returned on own or custody dispute resolved",
+    "aged_out": "Alert cancelled - child turned 18 or situation resolved",
+    "ongoing": "Alert remains active, investigation continuing"
+  },
+  
+  "statistical_benchmarks": {
+    "average_amber_alert_duration_hours": 5.2,
+    "this_case_duration_hours": 2.25,
+    "performance_vs_average": "56% faster than average",
+    "tip_to_resolution_time_minutes": 20,
+    "ai_verification_time_seconds": 3.5,
+    "traditional_verification_time_minutes": 15
+  }
+}

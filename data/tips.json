@@ -1,0 +1,165 @@
+{
+  "tips": [
+    {
+      "id": "TIP-001",
+      "timestamp": "2026-01-17T14:45:00Z",
+      "received_via": "911 call",
+      "caller_id": "Anonymous",
+      
+      "location": {
+        "description": "Highway 5 North, near Old Chelsea exit",
+        "coords": {
+          "lat": 45.5120,
+          "lon": -75.8250
+        },
+        "distance_from_last_known_km": 0.5
+      },
+      
+      "sighting": {
+        "description": "Saw blue Honda Civic heading north on Highway 5. Couldn't see plate clearly but looked like ABC series.",
+        "vehicle_match": "Blue Honda, northbound direction",
+        "child_seen": false,
+        "time_of_sighting": "2026-01-17T14:42:00Z",
+        "confidence_notes": "Vehicle matches description. Direction consistent with witness report. Recent sighting (27 min after abduction)."
+      },
+      
+      "caller_details": {
+        "reliability": "Unknown - first time caller",
+        "callback_number": "819-555-0891",
+        "additional_info": "Caller was driving southbound, saw vehicle pass in opposite lane"
+      },
+      
+      "verification_status": null,
+      "ai_confidence": null,
+      "ai_reasoning": null
+    },
+    
+    {
+      "id": "TIP-002",
+      "timestamp": "2026-01-17T14:50:00Z",
+      "received_via": "Mobile app submission",
+      "caller_id": "User #47382",
+      
+      "location": {
+        "description": "Rest stop on Highway 5 North, km marker 28",
+        "address": "Highway 5 Rest Area, Cantley, QC",
+        "coords": {
+          "lat": 45.4215,
+          "lon": -75.6972
+        },
+        "distance_from_last_known_km": 12.3
+      },
+      
+      "sighting": {
+        "description": "Saw young girl matching Emma's description at rest stop. She was with an adult male, black hoodie. Girl looked uncomfortable. They got into a blue Honda sedan.",
+        "vehicle_match": "Blue Honda sedan, couldn't see full plate but started with 'A'",
+        "child_seen": true,
+        "child_description_match": "Brown hair, pink jacket - exact match to alert",
+        "suspect_description_match": "Black hoodie - matches suspect description",
+        "time_of_sighting": "2026-01-17T14:48:00Z",
+        "confidence_notes": "Direct sighting of child matching description. Location is logical given timeline (33 min travel at highway speeds). Witness noticed child appeared uncomfortable."
+      },
+      
+      "caller_details": {
+        "reliability": "Verified user - 3 previous valid tips submitted",
+        "callback_number": "613-555-2847",
+        "additional_info": "Caller is a school teacher, familiar with children's behavior. Noted child wasn't crying but seemed withdrawn. Male seemed in a hurry."
+      },
+      
+      "photo_submitted": true,
+      "photo_quality": "Low - taken from distance, shows blue vehicle and two figures",
+      
+      "verification_status": null,
+      "ai_confidence": null,
+      "ai_reasoning": null
+    },
+    
+    {
+      "id": "TIP-003",
+      "timestamp": "2026-01-17T15:10:00Z",
+      "received_via": "Text to hotline",
+      "caller_id": "819-555-7392",
+      
+      "location": {
+        "description": "Gas station, Highway 105 West",
+        "address": "Shell Station, 1847 Highway 105, Kazabazua, QC",
+        "coords": {
+          "lat": 45.8645,
+          "lon": -76.0231
+        },
+        "distance_from_last_known_km": 45.2
+      },
+      
+      "sighting": {
+        "description": "Blue car at gas pump. Couldn't see inside clearly. Plate might have had ABC but not sure.",
+        "vehicle_match": "Blue car - make/model unclear",
+        "child_seen": false,
+        "time_of_sighting": "2026-01-17T15:05:00Z",
+        "confidence_notes": "Very vague. Location is far from probable routes. Timing would require sustained high speed. No child sighting."
+      },
+      
+      "caller_details": {
+        "reliability": "Unknown - first contact",
+        "callback_number": "819-555-7392",
+        "additional_info": "Caller saw AMBER alert on highway sign, thought they might have seen the car"
+      },
+      
+      "verification_status": null,
+      "ai_confidence": null,
+      "ai_reasoning": null
+    },
+    
+    {
+      "id": "TIP-004",
+      "timestamp": "2026-01-17T15:25:00Z",
+      "received_via": "911 call",
+      "caller_id": "Anonymous",
+      
+      "location": {
+        "description": "Residential area, Aylmer sector",
+        "address": "Near Galeries Aylmer, Gatineau, QC",
+        "coords": {
+          "lat": 45.3976,
+          "lon": -75.8516
+        },
+        "distance_from_last_known_km": 11.8
+      },
+      
+      "sighting": {
+        "description": "Saw blue Honda in parking lot. Child in back seat crying. Man went into mall. Vehicle still there.",
+        "vehicle_match": "Blue Honda - year/model matches alert description",
+        "plate_match": "Partial plate visible: ABC12__",
+        "child_seen": true,
+        "child_description_match": "Brown hair, couldn't see clothing clearly through window",
+        "time_of_sighting": "2026-01-17T15:20:00Z",
+        "confidence_notes": "Strong vehicle match including partial plate. Child sighting confirmed. Location plausible - could have circled back. Child in distress (crying)."
+      },
+      
+      "caller_details": {
+        "reliability": "Caller remained on scene, flagged down security",
+        "callback_number": "819-555-3041",
+        "additional_info": "Mall security has been notified. Vehicle is in parking spot B-47. Caller is maintaining visual contact from safe distance."
+      },
+      
+      "urgency": "CRITICAL - Active sighting, vehicle stationary, suspect temporarily away from vehicle",
+      
+      "verification_status": null,
+      "ai_confidence": null,
+      "ai_reasoning": null
+    }
+  ],
+  
+  "tip_categories": {
+    "vehicle_only": "Saw vehicle matching description, no child sighting",
+    "child_sighting": "Direct sighting of child matching description",
+    "partial_match": "Some details match but incomplete information",
+    "active_scene": "Real-time sighting with vehicle/suspect still present"
+  },
+  
+  "verification_guidelines": {
+    "high_confidence": "Child sighting + vehicle match + location plausibility + timing consistency",
+    "medium_confidence": "Vehicle match + reasonable location + timing OR child sighting with partial details",
+    "low_confidence": "Vague details, implausible location/timing, no child sighting",
+    "spam_indicators": "Duplicate reports, impossible timelines, conflicting details, known hoax patterns"
+  }
+}

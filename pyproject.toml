@@ -6,5 +6,9 @@ requires-python = "==3.11.*"
 dependencies = [
     "solace-agent-mesh>=1.13.3",
     "PyGithub==2.8.1",
+<<<<<<< HEAD
     "sam-webhook-gateway @ git+https://github.com/SolaceLabs/solace-agent-mesh-core-plugins#subdirectory=sam-webhook-gateway"
+=======
+    "httpx>=0.27.0",
+>>>>>>> 0a5b99e6a6311a6b3940425aa7ff0f5e3ca3c511
 ]

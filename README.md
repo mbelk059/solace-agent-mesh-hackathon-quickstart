@@ -1,64 +1,152 @@
-# Solace Agent Mesh Hackathon Quickstart
+# AMBER AI Alert - Solace Agent Mesh
 
-A hackathon quickstart template for building and deploying [Solace Agent Mesh](https://github.com/SolaceLabs/solace-agent-mesh) (SAM) applications with custom agents.
+An event-driven, multi-agent AI system that simulates an intelligent AMBER Alert response network. This demonstration shows how multiple independent agents communicate through events to coordinate emergency response.
 
-## Getting Started
+## Features
 
-1. [Get LLM API access](docs/llm-setup.md) (free options available)
-2. Choose a [run method](#run--deploy)
-3. Set up [Vibe Coding](docs/vibe-coding.md)
-4. Watch the [demo videos](#demo-videos)
-5. Explore the [demo examples](#demo-examples)
+- **Event-Driven Architecture**: All agents communicate via events, not direct calls
+- **Real-Time Visualization**: Live dashboard showing agent status and event flow
+- **Multi-Agent System**: 6 specialized agents working together
+- **Failure Recovery**: Demonstrates how the system continues when agents fail
+- **AI-Powered Analysis**: Uses AI to assess alert urgency and process tips
 
-## Run & Deploy
+## Architecture
 
-| Platform | Guide                                           | When to Use                              |
-| -------- | ----------------------------------------------- | ---------------------------------------- |
-| Docker   | [Run with Docker](docs/deployment/docker.md)    | Quick start, no Python setup needed      |
-| CLI      | [Run with CLI](docs/deployment/cli.md)          | Local dev, faster iteration (no rebuild) |
-| Railway  | [Deploy to Railway](docs/deployment/railway.md) | Public deployment, sharing               |
+### Agents
 
-For persistent storage across restarts, see [Persistent Storage with Supabase](docs/persistence.md).
+1. **Alert Receiver** - Receives and validates AMBER Alert reports
+2. **AI Analyzer** - Assesses alert urgency and priority using AI reasoning
+3. **Broadcast Agent** - Coordinates alert broadcasting across multiple channels
+4. **Camera Agent** - Manages automated camera scanning in geofence zones
+5. **Tip Processor** - Receives, processes, and verifies tips from the public
+6. **Geo Intelligence** - Creates geofence zones for camera scanning
 
----
+### Event Flow
 
-## AI-Assisted Development
+```
+Alert Reported → AI Analyzer → Broadcast Agent
+                ↓
+         Geo Intelligence → Camera Agent
+                ↓
+         Tip Processor → AI Analyzer
+```
 
-Pre-configured for [Google Antigravity](https://antigravity.google/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), and [Claude Code](https://claude.ai/code) with [Context7](https://context7.com) for up-to-date SAM docs.
+## Setup
 
-See [Vibe Coding Guide](docs/vibe-coding.md) for setup and known limitations.
+### Prerequisites
 
-## Demo Videos
+- Node.js 18+ and npm
+- Python 3.11
+- uv package manager (for Python dependencies)
 
-Quick walkthroughs showing how to use each tool:
+### Installation
 
-### Google Antigravity | SAM via CLI
+1. **Install Python dependencies:**
+   ```bash
+   uv sync
+   ```
 
-https://github.com/user-attachments/assets/a699e77f-7796-442e-8684-bf6679422a60
+2. **Install Node.js dependencies:**
+   ```bash
+   npm install
+   ```
 
-### Gemini CLI | SAM via Docker
+3. **Set up environment variables:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your LLM API credentials (see docs/llm-setup.md)
+   ```
 
-https://github.com/user-attachments/assets/adcedaac-2e2c-461a-a77d-11eeba592f73
+## Running the Application
 
-### Claude Code | SAM via Railway
+### Option 1: Development Mode (Recommended)
 
-https://github.com/user-attachments/assets/bded17cd-cfc8-4269-8933-92883792bcd3
+**Terminal 1 - Start SAM Backend:**
+```bash
+uv run sam run configs/
+```
 
-## Demo Examples
+**Terminal 2 - Start Next.js Frontend:**
+```bash
+npm run dev
+```
 
-Agents showing progressive complexity:
+Then open http://localhost:3000 in your browser.
 
-| Level    | Agent                                                               | What It Does                                                            |
-| -------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Basic    | [`changelog-basic.yaml`](configs/agents/changelog-basic.yaml)       | Instruction-only, no tools                                              |
-| Enriched | [`changelog-enriched.yaml`](configs/agents/changelog-enriched.yaml) | Adds built-in artifact tools to save files                              |
-| Advanced | [`changelog-github.yaml`](configs/agents/changelog-github.yaml)     | Custom Python tools ([`git_tools.py`](src/git_tools.py)) for GitHub API |
-| Advanced | [`docs-agent.yaml`](configs/agents/docs-agent.yaml)                 | MCP integration (Context7) for live documentation lookup                |
+### Option 2: Docker (Alternative)
 
-Try: _"Generate a changelog for SolaceLabs/solace-agent-mesh"_ or _"Look up the Next.js App Router docs"_
+```bash
+docker build -t amber-alert-sim .
+docker run -d --rm -p 8000:8000 -p 3000:3000 --env-file .env --name amber-sim amber-alert-sim
+```
 
----
+## Usage
 
-## Resources
+1. **Trigger an Alert**: Click "🚨 Trigger AMBER Alert" to start a simulation
+2. **Watch Agents**: See agents change color as they process events:
+   - 🟢 Green = Success/Active
+   - 🟡 Yellow = Processing
+   - 🔴 Red = Error/Failed
+   - ⚫ Gray = Idle
+3. **View Events**: Check the Event Timeline on the right to see all events
+4. **Simulate Failure**: Click any agent's failure button to see recovery
+5. **Reset**: Click "Reset Simulation" to start over
 
-- [Solace Agent Mesh Documentation](https://solacelabs.github.io/solace-agent-mesh/docs/documentation/getting-started/introduction/)
+## How It Works
+
+### Event-Driven Communication
+
+Agents don't call each other directly. Instead:
+- Agents publish events to the event broker
+- Other agents subscribe to relevant events
+- Each agent reacts independently to events
+
+### Failure Recovery
+
+When an agent fails:
+1. Failure event is emitted
+2. Other agents continue working (they're decoupled)
+3. System automatically attempts recovery
+4. Agent status updates when recovered
+
+### Data Sources
+
+All data comes from JSON files in the `data/` directory:
+- `amber_alert.json` - Alert information
+- `tips.json` - Public tips
+- `resolutions.json` - Resolution outcomes
+
+## Project Structure
+
+```
+.
+├── app/                    # Next.js frontend
+│   ├── components/        # React components
+│   └── api/               # API routes
+├── configs/               # SAM agent configurations
+│   └── agents/            # Individual agent YAML files
+├── src/                   # Python tools
+│   └── amber_tools.py     # Agent tools
+├── data/                  # JSON data files
+└── package.json           # Node.js dependencies
+```
+
+## Development
+
+### Adding a New Agent
+
+1. Create a YAML file in `configs/agents/`
+2. Follow the pattern from existing agents
+3. Add tools in `src/amber_tools.py` if needed
+4. Update the frontend to include the new agent
+
+### Modifying Event Flow
+
+Events are emitted in:
+- Python tools (`src/amber_tools.py`) - via HTTP to frontend API
+- API routes (`app/api/`) - for simulation triggers
+
+
+## License
+
+MIT

@@ -1,0 +1,65 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: alert-receiver_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "AlertReceiver"
+      display_name: "Alert Receiver"
+      model: *general_model
+
+      instruction: |
+        You are the Alert Receiver agent in an AMBER Alert system.
+        Your role is to receive and validate incoming AMBER Alert reports.
+
+        When you receive an alert:
+        1. Read the alert data from the JSON file using read_alert_data
+        2. Validate the alert meets AMBER Alert criteria
+        3. Emit an "alert_reported" event with the alert details
+        4. Notify the AI Analyzer agent to assess urgency
+
+        IMPORTANT:
+        - Always use the read_alert_data tool to get alert information
+        - Validate that required fields are present (child info, suspect, vehicle, location)
+        - Emit events immediately after validation
+
+      tools:
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "read_alert_data"
+          tool_config:
+            data_dir: "data"
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Alert Receiver Agent - Receives and validates AMBER Alert reports from law enforcement.
+          Use this agent when an alert needs to be processed, validated, or when checking alert
+          status. This agent reads alert data from JSON files and initiates the alert response
+          workflow by emitting events to other agents.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "AIAnalyzer"]
+        request_timeout_seconds: 60

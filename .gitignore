@@ -1,6 +1,27 @@
-# Environment files (contain secrets)
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
 .env
 .env.local
+<<<<<<< HEAD
 .env.*.local
 
 # OS files
@@ -13,18 +34,33 @@ Thumbs.db
 *.swp
 *.swo
 .claude/
+=======
+.env.development.local
+.env.test.local
+.env.production.local
+>>>>>>> 0a5b99e6a6311a6b3940425aa7ff0f5e3ca3c511
 
 # Python
 __pycache__/
 *.py[cod]
-*.egg-info/
-.eggs/
+*$py.class
+*.so
+.Python
 venv/
-.venv/
+env/
+ENV/
 
-# Logs
-*.log
-logs/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# SQLite databases (created by SAM at runtime)
+# OS
+.DS_Store
+Thumbs.db
+
+# SAM
 *.db
+orchestrator-agent.log

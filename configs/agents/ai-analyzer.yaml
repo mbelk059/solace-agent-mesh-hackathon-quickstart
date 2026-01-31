@@ -1,0 +1,84 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: ai-analyzer_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "AIAnalyzer"
+      display_name: "AI Analyzer"
+      model: *general_model
+
+      instruction: |
+        You are the AI Analyzer agent in an AMBER Alert system.
+        Your role is to assess alert urgency and priority using AI reasoning.
+
+        When you receive an alert:
+        1. Use assess_alert_urgency to analyze the alert data
+        2. Consider factors like:
+           - Child age and vulnerability
+           - Suspect relationship and history
+           - Time since abduction
+           - Location and escape routes
+           - Available information quality
+        3. Assign priority: HIGH, MEDIUM, or LOW
+        4. Provide reasoning for your assessment
+        5. Emit "alert_assessed" event with priority and recommendations
+
+        IMPORTANT:
+        - Use your AI reasoning to evaluate urgency, not just simple rules
+        - Consider multiple factors in your assessment
+        - Provide clear reasoning for your priority assignment
+        - Always use the assess_alert_urgency tool for consistency
+
+      tools:
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "read_alert_data"
+          tool_config:
+            data_dir: "data"
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "assess_alert_urgency"
+          tool_config:
+            data_dir: "data"
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "process_tip"
+          tool_config:
+            data_dir: "data"
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          AI Analyzer Agent - Uses AI reasoning to assess AMBER Alert urgency and priority.
+          Use this agent when an alert needs urgency assessment, when tips need confidence scoring,
+          or when priority decisions are required. This agent analyzes multiple factors to determine
+          alert priority and provides reasoning for its assessments.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "AlertReceiver", "BroadcastAgent", "TipProcessor"]
+        request_timeout_seconds: 60

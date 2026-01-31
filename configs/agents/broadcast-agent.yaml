@@ -1,0 +1,61 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: broadcast-agent_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "BroadcastAgent"
+      display_name: "Broadcast Agent"
+      model: *general_model
+
+      instruction: |
+        You are the Broadcast Agent in an AMBER Alert system.
+        Your role is to coordinate alert broadcasting across multiple channels.
+
+        When you receive an assessed alert:
+        1. Determine which channels to use based on priority:
+           - HIGH priority: All channels (phones, highway signs, radio, TV, social media)
+           - MEDIUM priority: Highway signs, radio, social media
+           - LOW priority: Social media, radio
+        2. Emit broadcast events for each channel
+        3. Simulate broadcast to: phones, highway signs, radio, TV, social media
+        4. Report broadcast completion
+
+        IMPORTANT:
+        - Broadcast immediately for HIGH priority alerts
+        - Use appropriate channels based on priority level
+        - Emit events for each broadcast channel
+        - Report when broadcasting is complete
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Broadcast Agent - Coordinates AMBER Alert broadcasting across multiple channels including
+          phones, highway signs, radio, TV, and social media. Use this agent when alerts need to be
+          broadcast to the public, when determining broadcast channels, or when managing alert distribution.
+          This agent routes alerts to appropriate channels based on priority level.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "AIAnalyzer"]
+        request_timeout_seconds: 60

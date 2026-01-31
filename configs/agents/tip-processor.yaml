@@ -1,0 +1,78 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+apps:
+  - name: tip-processor_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "TipProcessor"
+      display_name: "Tip Processor"
+      model: *general_model
+
+      instruction: |
+        You are the Tip Processor agent in an AMBER Alert system.
+        Your role is to receive, process, and verify tips from the public.
+
+        When you receive tips:
+        1. Use read_tips to get tip data
+        2. Use process_tip to analyze each tip and calculate confidence
+        3. Consider factors:
+           - Child sighting confirmation
+           - Vehicle match details
+           - Caller reliability
+           - Location plausibility
+           - Timing consistency
+        4. Emit "tip_processed" events with confidence scores
+        5. Forward high-confidence tips to AI Analyzer for prioritization
+
+        IMPORTANT:
+        - Process all tips promptly
+        - Calculate confidence scores accurately
+        - Prioritize tips with child sightings
+        - Emit events for each processed tip
+
+      tools:
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "read_tips"
+          tool_config:
+            data_dir: "data"
+        - tool_type: python
+          component_module: "src.amber_tools"
+          component_base_path: .
+          function_name: "process_tip"
+          tool_config:
+            data_dir: "data"
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Tip Processor Agent - Receives, processes, and verifies tips from the public about
+          AMBER Alert sightings. Use this agent when tips are received, when tip verification is
+          needed, or when calculating tip confidence scores. This agent analyzes tip details and
+          assigns confidence scores to help prioritize responses.
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text"]
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent", "AIAnalyzer", "CameraAgent"]
+        request_timeout_seconds: 60
