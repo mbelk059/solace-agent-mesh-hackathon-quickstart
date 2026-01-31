@@ -1,0 +1,104 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+# =============================================================================
+# Crisis Detection Agent - Monitors global emergency sources and detects crises
+# =============================================================================
+# This agent simulates monitoring GDACS API, news RSS feeds, Twitter/X API,
+# USGS earthquake feed, and NOAA weather alerts to detect global emergencies.
+#
+# For hackathon demo: Uses mock data from mock_raw_crises.json
+# In production: Would connect to real APIs and publish to Solace topics
+# =============================================================================
+
+apps:
+  - name: crisis-detection-agent_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "CrisisDetectionAgent"
+      display_name: "Crisis Detection Agent"
+      model: *general_model
+
+      instruction: |
+        You are the Crisis Detection Agent for CrisisAI, a real-time global emergency monitoring platform.
+        Your role is to monitor multiple emergency data sources and detect crises as they occur.
+
+        CAPABILITIES:
+        - Monitor GDACS (Global Disaster Alert and Coordination System) API
+        - Monitor news RSS feeds (BBC, Reuters, AP News)
+        - Monitor Twitter/X API for crisis hashtags and geo-tagged posts
+        - Monitor USGS earthquake feed
+        - Monitor NOAA weather alerts
+        - Detect keywords: "earthquake", "hurricane", "flood", "conflict", "famine", "wildfire"
+        - Publish raw crisis detections to Solace topic: crisis/raw/[source]/[crisis_id]
+
+        WORKFLOW:
+        1. Use detect_crises tool to load and process raw crisis detections
+        2. Each detection includes: crisis_id, source, type, location, timestamp, confidence
+        3. Simulate publishing to Solace topics for downstream processing
+        4. Report detection summary with counts and sources
+
+        IMPORTANT - Tool Output Rules:
+        - WAIT for the tool to return before responding
+        - Use the EXACT values returned by the tool
+        - Report the number of crises detected and their sources
+        - Format: "Detected [N] crises from sources: [list]"
+
+        DATA STRUCTURE:
+        Each raw crisis includes:
+        - crisis_id: Unique identifier (e.g., "eq_turkey_2024_001")
+        - source: Data source (GDACS, USGS, BBC News, etc.)
+        - type: Crisis type (earthquake, flood, hurricane, etc.)
+        - location: Country, city, lat/lng coordinates
+        - timestamp: ISO 8601 timestamp
+        - confidence_raw: Detection confidence (0.0-1.0)
+
+      tools:
+        - tool_type: python
+          component_module: "src.crisis_tools"
+          component_base_path: .
+          function_name: "detect_crises"
+
+        - tool_type: builtin-group
+          group_name: artifact_management
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+        database_url: ${CUSTOM_AGENT_DATABASE_URL,}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Crisis Detection Agent - Monitors global emergency sources (GDACS, news feeds, USGS, NOAA)
+          to detect crises in real-time. Use this agent when you need to detect new emergencies,
+          monitor crisis sources, or get raw crisis detection data. Examples: "Detect new crises",
+          "Monitor emergency sources", "Get raw crisis detections from GDACS".
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text", "file"]
+        skills:
+          - id: "crisis_detection"
+            name: "Crisis Detection"
+            description: "Detects crises from multiple global emergency data sources"
+          - id: "real_time_monitoring"
+            name: "Real-Time Monitoring"
+            description: "Continuously monitors emergency feeds for new crises"
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent"]
+        request_timeout_seconds: 60

@@ -1,0 +1,115 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+# =============================================================================
+# Crisis Verification & Scoring Agent - Verifies and scores crisis severity
+# =============================================================================
+# This agent subscribes to crisis/raw/*/* topics, cross-references multiple
+# sources for verification, filters false alarms, and calculates severity scores.
+#
+# For hackathon demo: Uses mock data from mock_verified_crises.json
+# In production: Would subscribe to Solace topics and verify in real-time
+# =============================================================================
+
+apps:
+  - name: crisis-verification-agent_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "CrisisVerificationAgent"
+      display_name: "Crisis Verification & Scoring Agent"
+      model: *general_model
+
+      instruction: |
+        You are the Crisis Verification & Scoring Agent for CrisisAI.
+        Your role is to verify raw crisis detections and calculate severity scores.
+
+        CAPABILITIES:
+        - Subscribe to Solace topic: crisis/raw/*/* (all raw crisis detections)
+        - Cross-reference crises across multiple sources for verification
+        - Filter false alarms (require 2+ corroborating sources)
+        - Calculate severity score (1-10) based on:
+          * Deaths (40% weight)
+          * People affected (30% weight)
+          * Infrastructure damage (15% weight)
+          * Ongoing vs resolved status (15% weight)
+        - Publish verified crises to Solace topic: crisis/verified/[crisis_id]
+
+        WORKFLOW:
+        1. Use verify_and_score_crisis tool to process raw crises
+        2. Verify each crisis has 2+ corroborating sources
+        3. Calculate severity score using weighted formula
+        4. Include impact metrics: deaths, injured, displaced, affected_total
+        5. Publish verified crises with confidence scores
+
+        IMPORTANT - Tool Output Rules:
+        - WAIT for the tool to return before responding
+        - Use the EXACT severity scores and confidence values returned
+        - Report verification status clearly
+        - Format: "Verified [N] crises. Severity scores range from [min] to [max]"
+
+        SEVERITY SCORING:
+        - 9-10: Critical (massive casualties, widespread destruction)
+        - 7-8.9: High (significant impact, many affected)
+        - 5-6.9: Medium (moderate impact, localized)
+        - 3-4.9: Low (minor impact, contained)
+        - 1-2.9: Minimal (very limited impact)
+
+        DATA STRUCTURE:
+        Each verified crisis includes:
+        - crisis_id: Unique identifier
+        - severity_score: Calculated score (1-10)
+        - confidence: Verification confidence (0.0-1.0)
+        - verified_sources: List of corroborating sources
+        - impact: deaths, injured, displaced, affected_total
+        - status: ongoing, resolved, escalating
+        - description: Human-readable crisis description
+
+      tools:
+        - tool_type: python
+          component_module: "src.crisis_tools"
+          component_base_path: .
+          function_name: "verify_and_score_crisis"
+
+        - tool_type: builtin-group
+          group_name: artifact_management
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+        database_url: ${CUSTOM_AGENT_DATABASE_URL,}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Crisis Verification & Scoring Agent - Verifies raw crisis detections by cross-referencing
+          multiple sources and calculates severity scores (1-10). Use this agent when you need to
+          verify crisis data, calculate severity scores, or filter false alarms. Examples: "Verify
+          crisis detections", "Calculate severity scores", "Filter false alarms from crisis data".
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text", "file"]
+        skills:
+          - id: "crisis_verification"
+            name: "Crisis Verification"
+            description: "Verifies crises by cross-referencing multiple sources"
+          - id: "severity_scoring"
+            name: "Severity Scoring"
+            description: "Calculates severity scores (1-10) based on impact metrics"
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent"]
+        request_timeout_seconds: 60

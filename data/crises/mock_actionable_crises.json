@@ -1,0 +1,315 @@
+{
+  "crises": [
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "type": "earthquake",
+      "location": {
+        "country": "Turkey",
+        "city": "Kahramanmaraş",
+        "region": "Hatay Province",
+        "lat": 37.5,
+        "lng": 37.0
+      },
+      "severity_score": 9.2,
+      "confidence": 0.98,
+      "impact": {
+        "deaths": 50000,
+        "injured": 107000,
+        "displaced": 500000,
+        "affected_total": 15000000
+      },
+      "status": "ongoing",
+      "description": "Massive 7.8 magnitude earthquake strikes southern Turkey and northern Syria, causing catastrophic damage to buildings and infrastructure. Multiple aftershocks continue to threaten the region.",
+      "timestamp_verified": "2024-02-06T05:30:00Z",
+      "last_updated": "2024-02-06T14:20:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "Islamic Relief",
+          "campaign_url": "https://islamic-relief.org/appeals/turkey-earthquake/",
+          "verified": true,
+          "verification_date": "2024-02-06T06:00:00Z",
+          "focus_area": "Emergency shelter, food, medical aid"
+        },
+        {
+          "org_name": "Turkish Red Crescent",
+          "campaign_url": "https://www.kizilay.org.tr/Bagis/BagisYap/442/turkey-earthquakes-emergency-appeal",
+          "verified": true,
+          "verification_date": "2024-02-06T06:00:00Z",
+          "focus_area": "Search & rescue, emergency relief"
+        },
+        {
+          "org_name": "UNICEF Turkey",
+          "campaign_url": "https://www.unicef.org/emergencies/turkey-earthquake",
+          "verified": true,
+          "verification_date": "2024-02-06T06:00:00Z",
+          "focus_area": "Children & family support"
+        },
+        {
+          "org_name": "Doctors Without Borders",
+          "campaign_url": "https://www.doctorswithoutborders.org/what-we-do/countries/turkey-syria",
+          "verified": true,
+          "verification_date": "2024-02-06T06:00:00Z",
+          "focus_area": "Medical care, trauma treatment"
+        },
+        {
+          "org_name": "Save the Children",
+          "campaign_url": "https://www.savethechildren.org/us/what-we-do/emergency-response/turkey-syria-earthquake",
+          "verified": true,
+          "verification_date": "2024-02-06T06:00:00Z",
+          "focus_area": "Child protection, education, shelter"
+        }
+      ]
+    },
+    {
+      "crisis_id": "flood_pakistan_2024_001",
+      "type": "flood",
+      "location": {
+        "country": "Pakistan",
+        "city": "Karachi",
+        "region": "Sindh Province",
+        "lat": 24.9,
+        "lng": 67.0
+      },
+      "severity_score": 8.5,
+      "confidence": 0.95,
+      "impact": {
+        "deaths": 1800,
+        "injured": 12000,
+        "displaced": 800000,
+        "affected_total": 33000000
+      },
+      "status": "ongoing",
+      "description": "Severe monsoon flooding devastates Pakistan, with one-third of the country underwater. Millions displaced as infrastructure collapses and agricultural land is destroyed.",
+      "timestamp_verified": "2024-08-15T12:00:00Z",
+      "last_updated": "2024-08-20T10:00:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "Islamic Relief",
+          "campaign_url": "https://islamic-relief.org/appeals/pakistan-floods/",
+          "verified": true,
+          "verification_date": "2024-08-15T13:00:00Z",
+          "focus_area": "Emergency shelter, clean water, food aid"
+        },
+        {
+          "org_name": "UNICEF Pakistan",
+          "campaign_url": "https://www.unicef.org/emergencies/pakistan-floods",
+          "verified": true,
+          "verification_date": "2024-08-15T13:00:00Z",
+          "focus_area": "Children's health, education, protection"
+        },
+        {
+          "org_name": "Red Cross Pakistan",
+          "campaign_url": "https://www.ifrc.org/appeals/pakistan-floods",
+          "verified": true,
+          "verification_date": "2024-08-15T13:00:00Z",
+          "focus_area": "Emergency relief, medical care, shelter"
+        },
+        {
+          "org_name": "Direct Relief",
+          "campaign_url": "https://www.directrelief.org/emergency/pakistan-floods/",
+          "verified": true,
+          "verification_date": "2024-08-15T13:00:00Z",
+          "focus_area": "Medical supplies, healthcare support"
+        }
+      ]
+    },
+    {
+      "crisis_id": "conflict_gaza_2024_001",
+      "type": "humanitarian_crisis",
+      "location": {
+        "country": "Palestine",
+        "city": "Gaza",
+        "region": "Gaza Strip",
+        "lat": 31.4,
+        "lng": 34.5
+      },
+      "severity_score": 9.5,
+      "confidence": 0.99,
+      "impact": {
+        "deaths": 35000,
+        "injured": 78000,
+        "displaced": 1900000,
+        "affected_total": 2300000
+      },
+      "status": "ongoing",
+      "description": "Ongoing conflict in Gaza has created a severe humanitarian crisis with widespread destruction, mass displacement, and critical shortages of food, water, and medical supplies.",
+      "timestamp_verified": "2024-10-07T08:00:00Z",
+      "last_updated": "2024-11-15T16:00:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "UNICEF",
+          "campaign_url": "https://www.unicef.org/emergencies/gaza-crisis",
+          "verified": true,
+          "verification_date": "2024-10-07T09:00:00Z",
+          "focus_area": "Children's protection, health, education"
+        },
+        {
+          "org_name": "Doctors Without Borders",
+          "campaign_url": "https://www.doctorswithoutborders.org/what-we-do/countries/gaza",
+          "verified": true,
+          "verification_date": "2024-10-07T09:00:00Z",
+          "focus_area": "Medical care, trauma surgery, mental health"
+        },
+        {
+          "org_name": "Islamic Relief",
+          "campaign_url": "https://islamic-relief.org/appeals/gaza-emergency/",
+          "verified": true,
+          "verification_date": "2024-10-07T09:00:00Z",
+          "focus_area": "Food, water, shelter, medical supplies"
+        },
+        {
+          "org_name": "Save the Children",
+          "campaign_url": "https://www.savethechildren.org/us/what-we-do/emergency-response/gaza-crisis",
+          "verified": true,
+          "verification_date": "2024-10-07T09:00:00Z",
+          "focus_area": "Child protection, family support, education"
+        },
+        {
+          "org_name": "Red Cross / Red Crescent",
+          "campaign_url": "https://www.icrc.org/en/where-we-work/middle-east/israel-occupied-territories",
+          "verified": true,
+          "verification_date": "2024-10-07T09:00:00Z",
+          "focus_area": "Emergency medical care, humanitarian aid"
+        }
+      ]
+    },
+    {
+      "crisis_id": "drought_somalia_2024_001",
+      "type": "drought",
+      "location": {
+        "country": "Somalia",
+        "city": "Mogadishu",
+        "region": "Horn of Africa",
+        "lat": 2.0,
+        "lng": 45.3
+      },
+      "severity_score": 7.8,
+      "confidence": 0.92,
+      "impact": {
+        "deaths": 43000,
+        "injured": 0,
+        "displaced": 1200000,
+        "affected_total": 8000000
+      },
+      "status": "ongoing",
+      "description": "Prolonged drought across the Horn of Africa has led to severe food insecurity, water shortages, and mass displacement. Millions face famine conditions as crops fail and livestock die.",
+      "timestamp_verified": "2024-06-01T10:00:00Z",
+      "last_updated": "2024-08-10T14:00:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "UNICEF",
+          "campaign_url": "https://www.unicef.org/emergencies/horn-of-africa-drought",
+          "verified": true,
+          "verification_date": "2024-06-01T11:00:00Z",
+          "focus_area": "Nutrition, water, sanitation, child protection"
+        },
+        {
+          "org_name": "World Food Programme",
+          "campaign_url": "https://www.wfp.org/emergencies/horn-of-africa-drought",
+          "verified": true,
+          "verification_date": "2024-06-01T11:00:00Z",
+          "focus_area": "Food assistance, nutrition programs"
+        },
+        {
+          "org_name": "Islamic Relief",
+          "campaign_url": "https://islamic-relief.org/appeals/horn-of-africa-drought/",
+          "verified": true,
+          "verification_date": "2024-06-01T11:00:00Z",
+          "focus_area": "Food aid, water, livelihood support"
+        },
+        {
+          "org_name": "Save the Children",
+          "campaign_url": "https://www.savethechildren.org/us/what-we-do/emergency-response/horn-of-africa-drought",
+          "verified": true,
+          "verification_date": "2024-06-01T11:00:00Z",
+          "focus_area": "Child nutrition, health, education"
+        }
+      ]
+    },
+    {
+      "crisis_id": "hurricane_florida_2024_001",
+      "type": "hurricane",
+      "location": {
+        "country": "United States",
+        "city": "Miami",
+        "region": "Florida",
+        "lat": 25.8,
+        "lng": -80.2
+      },
+      "severity_score": 6.5,
+      "confidence": 0.96,
+      "impact": {
+        "deaths": 45,
+        "injured": 1200,
+        "displaced": 50000,
+        "affected_total": 2000000
+      },
+      "status": "resolved",
+      "description": "Category 4 hurricane makes landfall in Florida, causing significant flooding, power outages, and property damage. Recovery efforts ongoing.",
+      "timestamp_verified": "2024-09-10T16:00:00Z",
+      "last_updated": "2024-09-15T10:00:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "American Red Cross",
+          "campaign_url": "https://www.redcross.org/about-us/our-work/disaster-relief/hurricane-relief",
+          "verified": true,
+          "verification_date": "2024-09-10T17:00:00Z",
+          "focus_area": "Emergency shelter, food, recovery support"
+        },
+        {
+          "org_name": "Direct Relief",
+          "campaign_url": "https://www.directrelief.org/emergency/florida-hurricane/",
+          "verified": true,
+          "verification_date": "2024-09-10T17:00:00Z",
+          "focus_area": "Medical supplies, healthcare support"
+        },
+        {
+          "org_name": "Save the Children",
+          "campaign_url": "https://www.savethechildren.org/us/what-we-do/emergency-response/florida-hurricane",
+          "verified": true,
+          "verification_date": "2024-09-10T17:00:00Z",
+          "focus_area": "Child protection, family support"
+        }
+      ]
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "type": "wildfire",
+      "location": {
+        "country": "Greece",
+        "city": "Athens",
+        "region": "Attica",
+        "lat": 37.9,
+        "lng": 23.7
+      },
+      "severity_score": 6.0,
+      "confidence": 0.88,
+      "impact": {
+        "deaths": 28,
+        "injured": 150,
+        "displaced": 15000,
+        "affected_total": 500000
+      },
+      "status": "resolved",
+      "description": "Large-scale wildfires spread across Greece during extreme heatwave, destroying homes and forcing evacuations. Fire contained after several days.",
+      "timestamp_verified": "2024-07-20T15:00:00Z",
+      "last_updated": "2024-07-25T12:00:00Z",
+      "ngo_campaigns": [
+        {
+          "org_name": "Red Cross Greece",
+          "campaign_url": "https://www.redcross.gr/en/emergency-relief",
+          "verified": true,
+          "verification_date": "2024-07-20T16:00:00Z",
+          "focus_area": "Emergency shelter, relief supplies"
+        },
+        {
+          "org_name": "Save the Children Greece",
+          "campaign_url": "https://www.savethechildren.gr/en/emergencies",
+          "verified": true,
+          "verification_date": "2024-07-20T16:00:00Z",
+          "focus_area": "Child protection, family support"
+        }
+      ]
+    }
+  ]
+}

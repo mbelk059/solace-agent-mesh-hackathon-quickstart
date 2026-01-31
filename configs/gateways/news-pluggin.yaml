@@ -45,7 +45,7 @@ apps:
       <<: *broker_connection
 
     app_config:
-      namespace: "${NAMESPACE}"
+      namespace: ${NAMESPACE, sam/}
       gateway_id: news-plugin-gw-01
       artifact_service: *default_artifact_service
 

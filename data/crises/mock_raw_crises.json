@@ -1,0 +1,158 @@
+{
+  "crises": [
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "source": "GDACS",
+      "type": "earthquake",
+      "location": {
+        "country": "Turkey",
+        "city": "Kahramanmaraş",
+        "lat": 37.5,
+        "lng": 37.0
+      },
+      "raw_magnitude": 7.8,
+      "timestamp": "2024-02-06T04:17:00Z",
+      "confidence_raw": 0.95
+    },
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "source": "USGS",
+      "type": "earthquake",
+      "location": {
+        "country": "Turkey",
+        "city": "Kahramanmaraş",
+        "lat": 37.5,
+        "lng": 37.0
+      },
+      "raw_magnitude": 7.8,
+      "timestamp": "2024-02-06T04:18:00Z",
+      "confidence_raw": 0.98
+    },
+    {
+      "crisis_id": "flood_pakistan_2024_001",
+      "source": "GDACS",
+      "type": "flood",
+      "location": {
+        "country": "Pakistan",
+        "city": "Karachi",
+        "lat": 24.9,
+        "lng": 67.0
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-08-15T10:30:00Z",
+      "confidence_raw": 0.88
+    },
+    {
+      "crisis_id": "flood_pakistan_2024_001",
+      "source": "BBC News",
+      "type": "flood",
+      "location": {
+        "country": "Pakistan",
+        "city": "Karachi",
+        "lat": 24.9,
+        "lng": 67.0
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-08-15T11:00:00Z",
+      "confidence_raw": 0.85
+    },
+    {
+      "crisis_id": "conflict_gaza_2024_001",
+      "source": "BBC News",
+      "type": "humanitarian_crisis",
+      "location": {
+        "country": "Palestine",
+        "city": "Gaza",
+        "lat": 31.4,
+        "lng": 34.5
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-10-07T06:00:00Z",
+      "confidence_raw": 0.92
+    },
+    {
+      "crisis_id": "conflict_gaza_2024_001",
+      "source": "Reuters",
+      "type": "humanitarian_crisis",
+      "location": {
+        "country": "Palestine",
+        "city": "Gaza",
+        "lat": 31.4,
+        "lng": 34.5
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-10-07T06:15:00Z",
+      "confidence_raw": 0.90
+    },
+    {
+      "crisis_id": "drought_somalia_2024_001",
+      "source": "GDACS",
+      "type": "drought",
+      "location": {
+        "country": "Somalia",
+        "city": "Mogadishu",
+        "lat": 2.0,
+        "lng": 45.3
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-06-01T08:00:00Z",
+      "confidence_raw": 0.82
+    },
+    {
+      "crisis_id": "drought_somalia_2024_001",
+      "source": "UN OCHA",
+      "type": "drought",
+      "location": {
+        "country": "Somalia",
+        "city": "Mogadishu",
+        "lat": 2.0,
+        "lng": 45.3
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-06-01T09:00:00Z",
+      "confidence_raw": 0.88
+    },
+    {
+      "crisis_id": "hurricane_florida_2024_001",
+      "source": "NOAA",
+      "type": "hurricane",
+      "location": {
+        "country": "United States",
+        "city": "Miami",
+        "lat": 25.8,
+        "lng": -80.2
+      },
+      "raw_magnitude": 4,
+      "timestamp": "2024-09-10T14:00:00Z",
+      "confidence_raw": 0.95
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "source": "GDACS",
+      "type": "wildfire",
+      "location": {
+        "country": "Greece",
+        "city": "Athens",
+        "lat": 37.9,
+        "lng": 23.7
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-07-20T12:00:00Z",
+      "confidence_raw": 0.80
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "source": "BBC News",
+      "type": "wildfire",
+      "location": {
+        "country": "Greece",
+        "city": "Athens",
+        "lat": 37.9,
+        "lng": 23.7
+      },
+      "raw_magnitude": null,
+      "timestamp": "2024-07-20T13:00:00Z",
+      "confidence_raw": 0.78
+    }
+  ]
+}

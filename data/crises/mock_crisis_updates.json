@@ -1,0 +1,142 @@
+{
+  "updates": [
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-02-06T10:17:00Z",
+      "changes": {
+        "deaths": {"old": 20000, "new": 35000},
+        "injured": {"old": 80000, "new": 95000},
+        "severity_score": {"old": 8.5, "new": 8.9}
+      },
+      "new_developments": [
+        "Death toll rises to 35,000 as rescue efforts continue",
+        "International aid teams arrive from 40+ countries",
+        "Critical infrastructure damage estimated at $50B"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "update_sequence": 2,
+      "timestamp": "2024-02-07T04:17:00Z",
+      "changes": {
+        "deaths": {"old": 35000, "new": 50000},
+        "injured": {"old": 95000, "new": 107000},
+        "severity_score": {"old": 8.9, "new": 9.2}
+      },
+      "new_developments": [
+        "Death toll rises to 50,000 as rescue efforts continue",
+        "International aid teams arrive from 60+ countries",
+        "Critical infrastructure damage estimated at $100B"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "flood_pakistan_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-08-18T10:00:00Z",
+      "changes": {
+        "deaths": {"old": 1200, "new": 1800},
+        "displaced": {"old": 600000, "new": 800000},
+        "affected_total": {"old": 25000000, "new": 33000000}
+      },
+      "new_developments": [
+        "Flooding spreads to additional provinces",
+        "Water levels continue to rise in major cities",
+        "Agricultural losses estimated at $10B"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "conflict_gaza_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-10-15T12:00:00Z",
+      "changes": {
+        "deaths": {"old": 25000, "new": 35000},
+        "injured": {"old": 65000, "new": 78000},
+        "displaced": {"old": 1700000, "new": 1900000}
+      },
+      "new_developments": [
+        "Humanitarian situation continues to deteriorate",
+        "Critical shortage of medical supplies and fuel",
+        "UN warns of famine conditions spreading"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "drought_somalia_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-07-15T08:00:00Z",
+      "changes": {
+        "deaths": {"old": 35000, "new": 43000},
+        "displaced": {"old": 1000000, "new": 1200000},
+        "affected_total": {"old": 7000000, "new": 8000000}
+      },
+      "new_developments": [
+        "Drought conditions worsen across Horn of Africa",
+        "Food prices spike as crops fail",
+        "Water sources continue to dry up"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "hurricane_florida_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-09-12T14:00:00Z",
+      "changes": {
+        "deaths": {"old": 25, "new": 45},
+        "displaced": {"old": 30000, "new": 50000}
+      },
+      "new_developments": [
+        "Recovery efforts begin as floodwaters recede",
+        "Power restoration ongoing, 200K still without power",
+        "FEMA assistance applications open"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "hurricane_florida_2024_001",
+      "update_sequence": 2,
+      "timestamp": "2024-09-15T10:00:00Z",
+      "changes": {
+        "displaced": {"old": 50000, "new": 20000}
+      },
+      "new_developments": [
+        "Most residents able to return home",
+        "Infrastructure repairs progressing",
+        "Emergency shelters closing"
+      ],
+      "status_change": "ongoing -> resolved"
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "update_sequence": 1,
+      "timestamp": "2024-07-22T18:00:00Z",
+      "changes": {
+        "deaths": {"old": 15, "new": 28},
+        "displaced": {"old": 8000, "new": 15000}
+      },
+      "new_developments": [
+        "Fires spread to additional regions",
+        "Evacuations expand as winds shift",
+        "International firefighting teams deployed"
+      ],
+      "status_change": null
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "update_sequence": 2,
+      "timestamp": "2024-07-25T12:00:00Z",
+      "changes": {
+        "displaced": {"old": 15000, "new": 5000}
+      },
+      "new_developments": [
+        "Fires contained after several days",
+        "Most evacuees allowed to return",
+        "Damage assessment begins"
+      ],
+      "status_change": "ongoing -> resolved"
+    }
+  ]
+}

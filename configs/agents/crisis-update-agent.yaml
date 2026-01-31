@@ -1,0 +1,113 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+# =============================================================================
+# Crisis Update Monitor Agent - Monitors ongoing crises for updates
+# =============================================================================
+# This agent monitors crisis/actionable/* topics and re-queries sources
+# every 30-60 minutes to detect casualty count changes, status updates,
+# and new affected areas.
+#
+# For hackathon demo: Uses mock data from mock_crisis_updates.json
+# In production: Would continuously monitor and publish updates
+# =============================================================================
+
+apps:
+  - name: crisis-update-agent_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "CrisisUpdateAgent"
+      display_name: "Crisis Update Monitor Agent"
+      model: *general_model
+
+      instruction: |
+        You are the Crisis Update Monitor Agent for CrisisAI.
+        Your role is to continuously monitor ongoing crises for updates and changes.
+
+        CAPABILITIES:
+        - Monitor Solace topic: crisis/actionable/* (all actionable crises)
+        - Re-query sources every 30-60 minutes for ongoing crises
+        - Detect casualty count changes (deaths, injured, displaced)
+        - Monitor for crisis resolution or escalation
+        - Track new affected areas
+        - Detect severity score changes
+        - Publish updates to Solace topic: crisis/updates/[crisis_id]
+
+        WORKFLOW:
+        1. Use monitor_crisis_updates tool to check for updates
+        2. Compare current data with previous state
+        3. Detect changes in: deaths, injured, displaced, severity_score, status
+        4. Track new developments and status changes
+        5. Publish update notifications with change summaries
+
+        IMPORTANT - Tool Output Rules:
+        - WAIT for the tool to return before responding
+        - Use the EXACT update data returned
+        - Report changes clearly (old vs new values)
+        - Format: "Detected [N] updates. Changes: [summary]"
+
+        UPDATE TYPES:
+        - Casualty updates: Death toll changes, injured count changes
+        - Status changes: ongoing → resolved, ongoing → escalating
+        - Severity changes: Score increases or decreases
+        - New developments: Additional affected areas, new information
+
+        DATA STRUCTURE:
+        Each update includes:
+        - crisis_id: Unique identifier
+        - update_sequence: Sequential update number
+        - timestamp: When update was detected
+        - changes: Object with old/new values for changed fields
+        - new_developments: Array of new information
+        - status_change: Any status change (null if unchanged)
+
+      tools:
+        - tool_type: python
+          component_module: "src.crisis_tools"
+          component_base_path: .
+          function_name: "monitor_crisis_updates"
+
+        - tool_type: builtin-group
+          group_name: artifact_management
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+        database_url: ${CUSTOM_AGENT_DATABASE_URL,}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          Crisis Update Monitor Agent - Continuously monitors ongoing crises for updates,
+          detecting casualty count changes, status updates, and new developments. Use this
+          agent when you need to check for crisis updates, track changes over time, or monitor
+          ongoing emergencies. Examples: "Check for crisis updates", "Monitor Turkey earthquake
+          changes", "Get latest updates on active crises".
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text", "file"]
+        skills:
+          - id: "update_monitoring"
+            name: "Update Monitoring"
+            description: "Continuously monitors crises for changes and updates"
+          - id: "change_detection"
+            name: "Change Detection"
+            description: "Detects changes in casualty counts, severity, and status"
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent"]
+        request_timeout_seconds: 60

@@ -1,0 +1,113 @@
+log:
+  stdout_log_level: INFO
+
+!include ../shared_config.yaml
+
+# =============================================================================
+# NGO Matching Agent - Matches verified crises to humanitarian organizations
+# =============================================================================
+# This agent subscribes to crisis/verified/* topics and matches each crisis
+# to active NGO donation campaigns, verifying campaign URLs are legitimate.
+#
+# For hackathon demo: Uses mock data from mock_actionable_crises.json
+# In production: Would scrape/API call NGO websites and verify campaigns
+# =============================================================================
+
+apps:
+  - name: crisis-ngo-agent_app
+    app_base_path: .
+    app_module: solace_agent_mesh.agent.sac.app
+
+    broker:
+      <<: *broker_connection
+
+    app_config:
+      namespace: ${NAMESPACE, sam/}
+      supports_streaming: true
+      agent_name: "CrisisNGOAgent"
+      display_name: "NGO Matching Agent"
+      model: *general_model
+
+      instruction: |
+        You are the NGO Matching Agent for CrisisAI.
+        Your role is to match verified crises to active humanitarian organization campaigns.
+
+        CAPABILITIES:
+        - Subscribe to Solace topic: crisis/verified/* (all verified crises)
+        - Match crisis type/location to active NGO campaigns
+        - Verify campaign URLs are legitimate (check domain, SSL, charity registration)
+        - Search for: Islamic Relief, Red Cross/Crescent, UNICEF, Doctors Without Borders,
+          Save the Children, Direct Relief, and other verified NGOs
+        - Publish actionable crises to Solace topic: crisis/actionable/[crisis_id]
+
+        WORKFLOW:
+        1. Use match_ngo_campaigns tool to process verified crises
+        2. For each crisis, find 3-5 relevant NGO campaigns
+        3. Verify each campaign URL (domain check, SSL, charity registration)
+        4. Include focus area for each NGO (e.g., "Emergency shelter, food, medical aid")
+        5. Publish actionable crises with verified NGO links
+
+        IMPORTANT - Tool Output Rules:
+        - WAIT for the tool to return before responding
+        - Use the EXACT NGO names and URLs returned
+        - Report verification status for each NGO
+        - Format: "Matched [N] crises with [total] NGO campaigns"
+
+        VERIFICATION CRITERIA:
+        - Domain must be legitimate (known NGO domains)
+        - SSL certificate must be valid
+        - Charity registration number should be verifiable
+        - Campaign must be active and relevant to crisis
+
+        DATA STRUCTURE:
+        Each actionable crisis includes:
+        - crisis_id: Unique identifier
+        - All verified crisis data (severity, impact, location, etc.)
+        - ngo_campaigns: Array of verified NGO campaigns
+          * org_name: Organization name
+          * campaign_url: Verified donation URL
+          * verified: true/false
+          * verification_date: When verified
+          * focus_area: What the NGO is providing
+
+      tools:
+        - tool_type: python
+          component_module: "src.crisis_tools"
+          component_base_path: .
+          function_name: "match_ngo_campaigns"
+
+        - tool_type: builtin-group
+          group_name: artifact_management
+
+      session_service:
+        type: ${PERSISTENCE_TYPE, memory}
+        database_url: ${CUSTOM_AGENT_DATABASE_URL,}
+
+      artifact_service: *default_artifact_service
+
+      agent_card:
+        description: >
+          NGO Matching Agent - Matches verified crises to active humanitarian organization
+          donation campaigns. Verifies campaign URLs and provides direct donation links.
+          Use this agent when you need to find NGO campaigns for a crisis, verify donation
+          links, or get actionable ways to help. Examples: "Match NGOs for Turkey earthquake",
+          "Find verified donation links", "Get humanitarian organizations for this crisis".
+        defaultInputModes: ["text"]
+        defaultOutputModes: ["text", "file"]
+        skills:
+          - id: "ngo_matching"
+            name: "NGO Matching"
+            description: "Matches crises to relevant humanitarian organization campaigns"
+          - id: "campaign_verification"
+            name: "Campaign Verification"
+            description: "Verifies NGO campaign URLs and legitimacy"
+
+      agent_card_publishing:
+        interval_seconds: 10
+
+      agent_discovery:
+        enabled: true
+
+      inter_agent_communication:
+        allow_list: ["OrchestratorAgent"]
+        request_timeout_seconds: 60

@@ -1,0 +1,148 @@
+{
+  "crises": [
+    {
+      "crisis_id": "eq_turkey_2024_001",
+      "type": "earthquake",
+      "location": {
+        "country": "Turkey",
+        "city": "Kahramanmaraş",
+        "region": "Hatay Province",
+        "lat": 37.5,
+        "lng": 37.0
+      },
+      "severity_score": 9.2,
+      "confidence": 0.98,
+      "impact": {
+        "deaths": 50000,
+        "injured": 107000,
+        "displaced": 500000,
+        "affected_total": 15000000
+      },
+      "verified_sources": ["GDACS", "USGS", "BBC News", "Turkish Gov"],
+      "status": "ongoing",
+      "description": "Massive 7.8 magnitude earthquake strikes southern Turkey and northern Syria, causing catastrophic damage to buildings and infrastructure. Multiple aftershocks continue to threaten the region.",
+      "timestamp_verified": "2024-02-06T05:30:00Z",
+      "last_updated": "2024-02-06T14:20:00Z"
+    },
+    {
+      "crisis_id": "flood_pakistan_2024_001",
+      "type": "flood",
+      "location": {
+        "country": "Pakistan",
+        "city": "Karachi",
+        "region": "Sindh Province",
+        "lat": 24.9,
+        "lng": 67.0
+      },
+      "severity_score": 8.5,
+      "confidence": 0.95,
+      "impact": {
+        "deaths": 1800,
+        "injured": 12000,
+        "displaced": 800000,
+        "affected_total": 33000000
+      },
+      "verified_sources": ["GDACS", "BBC News", "Pakistani Gov", "UN OCHA"],
+      "status": "ongoing",
+      "description": "Severe monsoon flooding devastates Pakistan, with one-third of the country underwater. Millions displaced as infrastructure collapses and agricultural land is destroyed.",
+      "timestamp_verified": "2024-08-15T12:00:00Z",
+      "last_updated": "2024-08-20T10:00:00Z"
+    },
+    {
+      "crisis_id": "conflict_gaza_2024_001",
+      "type": "humanitarian_crisis",
+      "location": {
+        "country": "Palestine",
+        "city": "Gaza",
+        "region": "Gaza Strip",
+        "lat": 31.4,
+        "lng": 34.5
+      },
+      "severity_score": 9.5,
+      "confidence": 0.99,
+      "impact": {
+        "deaths": 35000,
+        "injured": 78000,
+        "displaced": 1900000,
+        "affected_total": 2300000
+      },
+      "verified_sources": ["BBC News", "Reuters", "UN OCHA", "WHO", "Red Cross"],
+      "status": "ongoing",
+      "description": "Ongoing conflict in Gaza has created a severe humanitarian crisis with widespread destruction, mass displacement, and critical shortages of food, water, and medical supplies.",
+      "timestamp_verified": "2024-10-07T08:00:00Z",
+      "last_updated": "2024-11-15T16:00:00Z"
+    },
+    {
+      "crisis_id": "drought_somalia_2024_001",
+      "type": "drought",
+      "location": {
+        "country": "Somalia",
+        "city": "Mogadishu",
+        "region": "Horn of Africa",
+        "lat": 2.0,
+        "lng": 45.3
+      },
+      "severity_score": 7.8,
+      "confidence": 0.92,
+      "impact": {
+        "deaths": 43000,
+        "injured": 0,
+        "displaced": 1200000,
+        "affected_total": 8000000
+      },
+      "verified_sources": ["GDACS", "UN OCHA", "FAO", "WFP"],
+      "status": "ongoing",
+      "description": "Prolonged drought across the Horn of Africa has led to severe food insecurity, water shortages, and mass displacement. Millions face famine conditions as crops fail and livestock die.",
+      "timestamp_verified": "2024-06-01T10:00:00Z",
+      "last_updated": "2024-08-10T14:00:00Z"
+    },
+    {
+      "crisis_id": "hurricane_florida_2024_001",
+      "type": "hurricane",
+      "location": {
+        "country": "United States",
+        "city": "Miami",
+        "region": "Florida",
+        "lat": 25.8,
+        "lng": -80.2
+      },
+      "severity_score": 6.5,
+      "confidence": 0.96,
+      "impact": {
+        "deaths": 45,
+        "injured": 1200,
+        "displaced": 50000,
+        "affected_total": 2000000
+      },
+      "verified_sources": ["NOAA", "FEMA", "BBC News", "AP News"],
+      "status": "resolved",
+      "description": "Category 4 hurricane makes landfall in Florida, causing significant flooding, power outages, and property damage. Recovery efforts ongoing.",
+      "timestamp_verified": "2024-09-10T16:00:00Z",
+      "last_updated": "2024-09-15T10:00:00Z"
+    },
+    {
+      "crisis_id": "wildfire_greece_2024_001",
+      "type": "wildfire",
+      "location": {
+        "country": "Greece",
+        "city": "Athens",
+        "region": "Attica",
+        "lat": 37.9,
+        "lng": 23.7
+      },
+      "severity_score": 6.0,
+      "confidence": 0.88,
+      "impact": {
+        "deaths": 28,
+        "injured": 150,
+        "displaced": 15000,
+        "affected_total": 500000
+      },
+      "verified_sources": ["GDACS", "BBC News", "Greek Fire Service"],
+      "status": "resolved",
+      "description": "Large-scale wildfires spread across Greece during extreme heatwave, destroying homes and forcing evacuations. Fire contained after several days.",
+      "timestamp_verified": "2024-07-20T15:00:00Z",
+      "last_updated": "2024-07-25T12:00:00Z"
+    }
+  ]
+}
